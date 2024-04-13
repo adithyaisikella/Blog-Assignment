@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Blog>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<environment names="Development">
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/https://tablesorter.com/addons/pager/jquery.tablesorter.pager.js"></script>
+</environment>
+
+<h1><b>View Blog Posts </b></h1>
+<br/>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<br/>
+<br />
+<table class="table" id="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+
+            // var s = @Html.DisplayFor(modelItem => item.Content).ToString();
+            var s = item.Content;
+            var sd= s.Split("Summary");
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Author)
+            </td>
+            <td>
+                @sd[0]
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PostId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PostId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PostId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<script>
+
+                $(document).ready(function() {
+    $("#table")
+    .tablesorter({widthFixed: true, widgets: ['zebra']})
+    .tablesorterPager({container: $("#pager")});
+}); 
+
+</script>
